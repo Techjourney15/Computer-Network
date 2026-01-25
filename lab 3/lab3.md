@@ -21,12 +21,14 @@ Hubs are typically used in very small networks where traffic control and securit
 
 ---
 
+
 ### Switch
 A switch functions at the Data Link Layer (Layer 2) and connects devices within a network by intelligently forwarding data packets. Unlike a hub, a switch is capable of learning and storing MAC addresses.
 
 Switches are widely used in organizational and enterprise networks to improve performance and minimize collisions.
 
 ---
+
 
 ### Bridge
 A bridge is also a Layer 2 networking device used to connect separate LAN segments and control traffic flow between them.
@@ -41,6 +43,7 @@ A router operates at the Network Layer (Layer 3) and is responsible for connecti
 Routers are essential for internet connectivity and communication between separate network segments.
 
 ---
+
 
 ### Repeater
 A repeater is a Layer 1 device designed to regenerate or replicate a signal.
@@ -59,29 +62,64 @@ A gateway routes traffic from a private network to external networks by acting a
 ## Observation
 
 ### Hub Implementation
-A hub was used to connect multiple devices. The packet transmission was observed to be broadcast in nature, meaning data was sent to all connected devices regardless of the destination.
-
 ---
+
+| Device Name | Interface        | IP Address    | Subnet Mask       |
+|------------|------------------|---------------|-------------------|
+| PC0        | FastEthernet0    | 192.168.1.1   | 255.255.255.0     |
+| PC1        | FastEthernet0    | 192.168.1.2   | 255.255.255.0     |
+| PC2        | FastEthernet0    | 192.168.1.3   | 255.255.255.0     |
+| PC3        | FastEthernet0    | 192.168.1.4   | 255.255.255.0     |
+| PC4        | FastEthernet0    | 192.168.1.5   | 255.255.255.0     |
+| PC5        | FastEthernet0    | 192.168.1.6   | 255.255.255.0     |
+
+In this simulation, a star topology was created using a Hub. PC0, PC1, PC2, PC3, PC4, and PC5 were connected to the Hub using copper straight-through cables. When a PDU was sent from PC5 to PC0, the Hub broadcasted the packet to all connected devices. The intended recipient accepted the packet, while other devices rejected it.
+
 
 ### Switch Implementation
-A switch was used to connect multiple devices. Unlike the hub, once the switch learned the MAC addresses, the message flow became unicast. The packet was sent directly from the source to the destination without disturbing other ports.
 
----
+| Device Name | Interface        | IP Address     | Subnet Mask       |
+|------------|------------------|----------------|-------------------|
+| PC0        | FastEthernet0    | 192.168.1.10   | 255.255.255.0     |
+| PC1        | FastEthernet0    | 192.168.1.11   | 255.255.255.0     |
+| PC2        | FastEthernet0    | 192.168.1.12   | 255.255.255.0     |
+| PC3        | FastEthernet0    | 192.168.1.13   | 255.255.255.0     |
+| PC4        | FastEthernet0    | 192.168.1.14   | 255.255.255.0     |
+| PC5        | FastEthernet0    | 192.168.1.15   | 255.255.255.0     |
+
+A switch was used to connect multiple devices. After learning MAC addresses, the switch forwarded packets using unicast transmission. Data was sent directly from source to destination without disturbing other ports.
 
 ### Bridge Implementation
-Two network segments were connected using a bridge. The simulation demonstrated how the bridge filters traffic and only allows data to pass to the other segment if the destination device belongs to that segment.
 
----
+| Device Name | IP Address     | Subnet Mask       |
+|------------|----------------|-------------------|
+| Switch0    | 192.168.1.2    | 255.255.255.0     |
+| Switch1    | 10.10.10.2     | 255.255.255.0     |
+| Bridge0    | 192.168.1.1    | 255.255.255.0     |
+
+Two network segments were connected using a bridge. The bridge filtered traffic and allowed packets to cross only if the destination belonged to the corresponding network segment.
 
 ### Repeater Implementation
-A repeater was placed between two long-distance segments. The signal propagation was observed to remain stable, ensuring that packets could travel longer distances without degradation.
 
----
+| Device Name | Connection Type              | Status |
+|------------|------------------------------|--------|
+| Repeater   | Port 0 to Left Segment       | Active |
+| Repeater   | Port 1 to Right Segment      | Active |
+
+A repeater was placed between two long-distance segments to regenerate signals. This ensured successful packet transmission without signal degradation.
 
 ### Router Implementation
-Routers were used to connect multiple networks. Communication between different network segments was successfully achieved after proper IP and gateway configuration.
 
----
+| Device Name | Interface              | IP Address     | Subnet Mask       | Gateway        |
+|------------|------------------------|----------------|-------------------|----------------|
+| Router0    | Gig0/0 (LAN 1)         | 192.168.1.1    | 255.255.255.0     | N/A            |
+| Router0    | Gig0/1 (LAN 2)         | 10.10.10.1     | 255.255.255.0     | N/A            |
+| PC-LAN1    | FastEthernet0          | 192.168.1.2    | 255.255.255.0     | 192.168.1.1   |
+| PC-LAN2    | FastEthernet0          | 10.10.10.2     | 255.255.255.0     | 10.10.10.1    |
+
+A router was configured to connect two different LANs. The router acted as a gateway, enabling communication between different network IDs.
+
+
 
 ## Discussion and Conclusion
 
